@@ -1,20 +1,20 @@
 package main
 
+import "fmt"
+
 func main() {
-	cards := newDeck()
-
-	//deckLastIndex := len(cards) - 1
-
+	cards, err := newDeckFromFile("my_cards")
+	if err != nil {
+		fmt.Println("An error was encountered. Error: ", err)
+		fmt.Println("Creating a new Deck")
+		cards = newDeck()
+	} else {
+		fmt.Println("A saved deck was found")
+	}
 	cards.print()
-
-	hand, cards := deal(cards, 3)
-
-	hand.print()
+	fmt.Println("Shuffling")
+	cards = shuffle(cards)
+	cards = shuffle(cards)
+	cards = shuffle(cards)
 	cards.print()
-}
-
-type Card string
-
-func newCard() string {
-	return "Five of Diamonds"
 }
