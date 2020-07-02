@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 // create a custom type for a deck of cards
 type deck []string
@@ -29,9 +32,13 @@ func (d deck) print() {
 	}
 }
 
-func deal(d deck, handSize int) (deck, deck) {
-	hand := d[:handSize]
-	deck := d[handSize:]
+func deal(d deck, s int) (deck, deck) {
+	// [:s] reaches from index 0 up to, but not including s
+	// [s:] starts from and includes s and includes everything through the last index
+	return d[:s], d[s:]
+}
 
-	return hand, deck
+func (d deck) toString() string {
+	// Join requires a slice of strings, our "deck" type is a slice of strings.  A type conversion is unnecessary
+	return strings.Join(d, ",")
 }
