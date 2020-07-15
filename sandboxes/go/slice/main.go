@@ -16,7 +16,8 @@ func main() {
 // the slice is passed by value, but because a slice is just ptr,cap,len,
 // it is still modifying the same array that both copies of the slice point to ;-)
 //
-// this applies to maps, channels, pointers, and functions (this will be fun)
+// this applies to maps, channels, pointers, and functions (this will be fun) because they are "Reference" types
+// this is as opposed to "Value" types eg int, float, string, bool, structs
 func updateSlice(s []string) {
 	s[0] = "Bye"
 }

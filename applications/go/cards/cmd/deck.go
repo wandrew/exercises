@@ -9,7 +9,7 @@ import (
 )
 
 // create a custom type for a deck of cards
-type deck []string
+type deck []card
 type card struct {
 	suit string
 	rank string
@@ -19,10 +19,11 @@ func newDeck() deck {
 	cards := deck{}
 
 	cardSuits := []string{"Spades", "Clubs", "Hearts", "Diamonds"}
-	cardRank := []string{"Ace", "King", "Queen", "Jack"}
+	cardRank := []string{"Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King"}
 	for _, suit := range cardSuits {
 		for _, value := range cardRank {
-			cards = append(cards, value+" of "+suit)
+			c := card{suit: suit, rank: value}
+			cards = append(cards, c)
 		}
 	}
 
@@ -42,16 +43,28 @@ func deal(d deck, s int) (deck, deck) {
 }
 
 func shuffle(d deck) deck {
+	src := rand.NewSource(time.Now().UnixNano())
+	r := rand.New(src)
 
-	rand.Seed(time.Now().UnixNano())
+	// This was the course approach
 	for i := range d {
-		n := rand.Intn(len(d) - 1)
+		n := r.Intn(len(d) - 1)
 		d[i], d[n] = d[n], d[i]
 	}
-	//
-	//rand.Shuffle(len(d), func(i, j int) {
-	//	d[i], d[j] = d[j], d[i]
-	//})
+
+	return d
+}
+
+// this was my approach
+func shuffleB(d deck) deck {
+	//src := rand.NewSource(time.Now().UnixNano())
+	//r := rand.New(src)
+
+	rand.Seed(time.Now().UnixNano())
+
+	rand.Shuffle(len(d), func(i, j int) {
+		d[i], d[j] = d[j], d[i]
+	})
 
 	return d
 }
